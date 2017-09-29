@@ -8,8 +8,22 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Exercise_1
+Get a little knowledge of R Markdown. 
 
-## R Markdown
+R Markdown seems to be a cocktail of severals mark languages. Consult the cheatsheet [here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf).
+
+### Note some shortcuts
+* knit: `shift + cmmd + k`
+* insert chunk: `alt + cmmd + I`
+* comment lines: `shift + cmmd + c`
+  
+```{r echo=TRUE}
+getRversion()
+```
+Below is the official introduction to R Markdown.
+
+### R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
@@ -19,7 +33,7 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Including Plots
+### Including Plots
 
 You can also embed plots, for example:
 
