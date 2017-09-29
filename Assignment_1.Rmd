@@ -8,23 +8,301 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Exercise_1
+Get a little knowledge of R Markdown. 
 
-## R Markdown
+R Markdown seems to be a cocktail of severals mark languages. Consult the cheatsheet [here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf).
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### Note some shortcuts
+* knit: `shift + cmmd + k`
+* insert chunk: `alt + cmmd + I`
+* comment lines: `shift + cmmd + c`
+* run current chunk: `shift + cmmd + return`
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+  
+```{r echo=TRUE}
+getRversion()
+```
+## Exercise_2
+Try to program in R.
+```{r}
+possible_outcomes <- c(0, 1, 2, 3, 4, 5)
+outcome_probabilities <- c(0.1, 0.5, 0.2, 0.1, 0.05, 0.05)
+n_data_points <- 400
 
-```{r cars}
-summary(cars)
+set.seed(1)
+#set.seed(NULL)
+fake_data_points <- sample(possible_outcomes,
+                           n_data_points,
+                           replace=T,
+                           prob=outcome_probabilities)
+set.seed(NULL)
+
+fake_data_set <- tibble::data_frame(`Fake measurement`=fake_data_points)
+#fake_data_set <- tibble(`Fake measurement`=fake_data_points)
+```
+Beyond is the R code that the professeur gave us. The task is to guess what he means by define the variable `fake_data_points`.
+
+**Statement1** this statement creates a vector of numbers called “possible_outcomes”. These numbers are all the possible outcomes that we expect to observe in the fake data set we’re going to plot.
+
+My reason is rather simple and intuitive. First of all, after running this chunk, we can see in console a bunch of numbers from 0 to 5, which correspond to the numbers in the vector `possible_outcomes`. So there's good reason to believe that these numbers are the items of sampling.
+
+**Statement2** This statement define the probability respectively of each item in the `possible_outcomes`. I guess this easily because I think it's more intuitive.
+First, by tring the simple vectors in the console, we already know that vectors in R are very powerful. There seems to be an inherent convention that we keep the position of each item in memory. Try:
+
+> b1 <- (1,3,4,5)
+  b1*b1
+  
+We will get (1,9,16,25) as if we correspond 1 to 1, 3 to 3, etc..
+
+Moreover, when we read the names of varialbes that we give them, `possible_outcomes` may want to say that the following are the possible outcomes that we can get; `outcome_probabilities` may tell us that everyone has its own possibility to outcome, which is proved by the vector itself -- it seems like that they have the probability respectively 0.1, 0.5, 0.2, 0.1, 0.05 and 0.05. We even have another prove that in the console, we can find much more 1 than 4 or 5.
+
+**Statement3** I guess it's the mesure of the sample that we wish to get. 
+When we have a look at the number in brackets of the last line in the console, we see `385`. We see the first "1" in the last line as the 385th number of this set, we can easily count that there're 400 numbers, which could be described as `n_data_points`=400. 
+
+**Statement4 (set.seed(1))** I guess this is to tell R memember that seed(1) represents a sampling result. I'll develop my reasons below:
+
+First, seed means "graine" in french, and "set a seed" just make me intuitively thinking of "mettre une graine dans la terre" or more simple "mark".
+
+Next, I tried to make this statement as a commentary. When I rerun the chunk, the console shows me another outcome that is totally different with the precedent one. And I rerun another time, another outcome! By this I tell myself that, since we didn't set a seed to this sampling, so this specific sample wouldn't be remembered. So every time I rerun, there's a different outcome. This could be annoying if our based data changes all the time. So there's a need to "set a seed", to "mark" it.
+
+Moreover, why I think it's rather a "marked" representation. When I bring back "set.seed(1)" as code, and rerun the chunk, the console gives me the outcome exactly identical of the original one. So I think (1) just represents this outcome and so that each time we want to use the data of (1), we can call it back.
+
+Notice that when I comment `set.seed(NULL)`, there's no change happened. I guess that this means "I set null seed" so "I don't set seed". I don't why our professor put this statement here if he didn't want to set a seed, he can simply write nothing here. So for confirming that `set.seed(Null)` means no seed, I add it before the sample function and then comment `set.seed(1)` and rerun twice, each time I get a new outcome. Confirmed.
+
+**Statement5 (fake_data_points)**  I actually guessed this first because it's more intuitive than **Statement4**. I guess this statement being telling a function of sampling who allows replacements of items.
+
+First of all, we have a look at the function itself: `sample`. There's a good reason to guess that this is a function to create an artificial sample from a finite, repeatable set, and several parameters. By now we have guessed the meaning of `possible_outcomes`, `n_data_points` and `prob=outcome_probabilities`. What lefts is `replace=T`. 
+
+Then, we guess for instant that T means "True". So the answer is more evident: this is a sample who allows replacements. What if it's `replace=F`? I tried to modify T as F, then console told me this:
+
+> Error in sample.int(length(x), size, replace, prob) : 
+  impossible de prendre un échantillon plus grand que la population lorsque 'replace = FALSE'
+
+Apparently, a no-replacement sample function doesn't allow the sample bigger than original population. So I guess that here "replacement" doesn't mean "remplacer" in french, but rather "re-placer dans le sac" so that we can reselect an item every time. For this reason, the "replace=T" allows then a sample bigger than its population.
+
+So my answer is that `fake_data_points` is defined by a function named "sample", and its population is the vector `possible_outcomes`, its mesure is 400, it's a sampling with replacement (reselection of each item) and the probability that each item appears in outcome is showed respectively in the `outcome_probabilities`.
+
+**Statement6** This statement allow R to generate a data frame in a better visualized format. I tried to modify the code like
+
+> tibble(x=letters)
+
+And the console just didn't stop to tell me there's no function named `tibble()` which seems very wierd to me. Whoever the tutorial of official one or popular blog, everyone seems to have no issues with this grammar, cf [here](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html). Continue to try:
+
+> tibble.data_frame(x=letters)
+
+Still not work. Continue:
+
+> tibble::data_frame(x=1:5, y=x^2)
+
+Only this grammar works with my console. So I have to guess that we should write the tibble function in this forme. As to its arguments, "x" or "y" is just the name that we want to assign to the columns. In our case with `fake_data_set`, we have only one "list" of pseudo data. So we assign the list `fake_data_points` to the name `fake_data_set`.
+
+One word plus, according to the data_frame function documentation, `data_frame` creates data frames more rubust than `data.frame` cf. [here](https://www.rdocumentation.org/packages/dplyr/versions/0.4.3/topics/data_frame)
+
+
+  
+```{r}
+ggplot2::ggplot(fake_data_set, ggplot2::aes(x=`Fake measurement`)) +
+  ggplot2::geom_histogram(bins=6, colour="black", fill="lightgrey")
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Exercise_3
+### 3.a
+```{r}
+iris_groups23 <- dplyr::filter(iris, Species %in% c("versicolor", "virginica"))
+ggplot2::ggplot(iris_groups23, ggplot2::aes(x=Sepal.Width)) +
+  ggplot2::geom_histogram(colour="black", fill="lightgrey", binwidth=0.1) +
+  ggplot2::facet_grid(Species ~ .)
+```
+```{r}
+library(magrittr)
+iris_versicolor_subset <- dplyr::filter(iris,
+                                        Sepal.Width <= 2.5,
+                                        Species == "versicolor") %>%
+                          dplyr::select(Sepal.Width, Species)
+knitr::kable(iris_versicolor_subset)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+library(magrittr)
+iris_versicolor_subset <- dplyr::filter(iris,
+                                        Sepal.Width >2.5, Sepal.Width <= 3.0,
+                                        Species == "versicolor") %>%
+                          dplyr::select(Sepal.Width, Species)
+knitr::kable(iris_versicolor_subset)
+```
+```{r}
+library(magrittr)
+iris_versicolor_subset <- dplyr::filter(iris,
+                                        Sepal.Width <= 3.5, Sepal.Width > 3.0,
+                                        Species == "versicolor") %>%
+                          dplyr::select(Sepal.Width, Species)
+knitr::kable(iris_versicolor_subset)
+```
+
+As we can see, the horizontal is the Sepal's width of the flower and the vertical is the mesure of numbers of flowers. At the very beginning I was wondering why there's a division by 2.25, 2.75, 3.25. And after I drew it myself I realized that, the grey box divided by 2.0 is actually the one who is 2.0cm by its width. By reading the assignment I thought that we should do box on 2.0 to 2.1 and 2.0 included. But now, it's apparently more convenient to draw the box just on 2.0 (1.5 to 2.5). So that the data is more accessive by vision.
+
+I requested all the data from <=2.5, to 2.5~3.0, to 3.0~3.5 and then I drew this:
+![Iris_versicolor](https://ws1.sinaimg.cn/large/006tNc79gy1fk2xqn2oa9j30zq0qwdlq.jpg)
+
+### 3.b
+```{r}
+iris_groups23 <- dplyr::filter(iris, Species %in% c("versicolor", "virginica"))
+ggplot2::ggplot(iris_groups23, ggplot2::aes(x=Sepal.Width)) +
+  ggplot2::geom_histogram(colour="black", fill="lightgrey", binwidth=0.1)
+```
+
+I verified the 2.5, 2.8, 3.0, 3.2.
+
+(2.5) 9=4+5
+
+(2.8) 14=6+8
+
+(3.0) 20=8+12
+
+(3.2) 8=3+5
+
+### 3.c
+
+**Hypothesis A**: The virginica and versicolor iris species are the same in terms of sepal width.
+
+**Hypothesis B**: The virginica and versicolor iris species are different in terms of sepal width.
+
+According the histograms that we get so far, the **Hypothesis B** seems more intuitively correct. But we have this intuition just because that we tend to believe that what we see could represents what we havn't seen. That's to say that the whole species are similar to the sample.
+
+Nonethness, it's still possible that **Hypothesis A** has reason too. If the virginica and versicolor iris species are the same in terms of sepal width, we just saw a sample not completly exact to its whole species. Given that the flowers whose sepal width >=3.0 are 45 in total, so if these two are actually the same in terms of sepal width, we should expect each specie has more or less 22, 23 flowers who have >=3.0cm sepals. And similarly, each one has more or less 22, 23 (also half of 45) flowers who have >=2.5cm sepals. And 5 or 4 (half of 10) flowers sepals below 2.5cm.
+
+###3.d
+For **Hypothesis A**, my suggestion is to look at the variations x<2.5, 2.5<=x<2.8, 2.8<=x<3.1, 3.1<=x<3.4, x>=3.4. The 3rd histogram shows that:
+
+x<2.5 : 10
+
+2.5<=x<2.8 : 22
+
+2.8<=x<3.1 : 43
+
+3.1<=x<3.4 : 19
+
+x>=3.4 : 6
+
+So if **Hypothesis A** is right, we expect each of the species has more or less:
+
+x<2.5 : 5
+
+2.5<=x<2.8 : 11
+
+2.8<=x<3.1 : 21 or 22 or so on
+
+3.1<=x<3.4 : 9 or 10 or so on
+
+x>=3.4 : 3
+
+Have a look of each of the separated histograms, we find that :
+
+for versicolor:
+
+x<2.5 : 9
+
+2.5<=x<2.8 : 12
+
+2.8<=x<3.1 : 21
+
+3.1<=x<3.4 : 7
+
+x>=3.4 : 1
+
+and for verginica:
+
+x<2.5 : 1
+
+2.5<=x<2.8 : 10
+
+2.8<=x<3.1 : 22
+
+3.1<=x<3.4 : 12
+
+x>=3.4 : 5
+
+We can see that in the middle range, they are roughly same of each other. As for the two sides, we can imagine that if we generate 2 pseudo histograms from the 3rd histogram, it's definetly possible to see a situation like the current one. Like we've seen in the class, the distribution of values might actually have one similar to our initial data. And if we link the boxes to have curves, we can just tell that the two curves are very close to the curve of the 3rd histogram to some extent. They could be considered as a same thing.
+
+##Exercise_4
+```{r}
+devtools::install_github("ewan/stats_course", subdir="data/stress_shift")
+```
+```{r}
+ggplot2::ggplot(stressshift::stress_shift_permit,
+                ggplot2::aes(x=Category, fill=Syllable)) +
+  ggplot2::geom_bar(position="dodge", colour="black") + 
+  ggplot2::scale_fill_brewer(palette="Set3")
+```
+```{r}
+ggplot2::ggplot(stressshift::stress_shift_permit,
+                ggplot2::aes(x=Category, fill=Syllable)) +
+  ggplot2::geom_bar(position="dodge", colour="black") + 
+  ggplot2::scale_fill_brewer(palette="Set3")
+```
+
+###4.a
+Given the histogram of Noun and Verb pooled together then explain the 2 hypothesis
+```{r}
+ggplot2::ggplot(stressshift::stress_shift_permit, ggplot2::aes(x=0, fill=Syllable)) +
+  ggplot2::geom_bar(position="dodge", colour="black") + 
+  ggplot2::scale_fill_brewer(palette="Set3") +
+  ggplot2::xlab("") +
+  ggplot2::theme(axis.text.x=ggplot2::element_blank(),
+                 axis.ticks.x=ggplot2::element_blank()) +
+  ggplot2::xlim(c(-1,1))
+```
+
+**Hypothesis A** Permit (noun) and permit (verb) are the same in terms of their stress.
+
+**Hypothesis B** Permit (noun) and permit (verb) are different in terms of their stress.
+
+As we can see in the last histogram, we have au total 36 words streghening syllable1 and 56 words streghening syllable2. If **permit(Noun)** and **permit(Verb)** are the same in terms of their stress, we will expect roughly 18 syllable1 and 28 syllable2 for each Noun and Verb. In contrary, if **Hypothesis B** is right, we will expect 2 different situations. Maybe **permit(Noun)** has 32 syllable1 and 14 syllable2 and **permit(Verb)** has 4 syllable1 and 42 syllable2. Or maybe in reverse, **permit(Noun)** has 2 syllable1 and 44 syllable2 and **permit(Verb)** has 34 syllable1 and 12 syllable2. In a word, they are not half and half in the contribution of each syllable in the last histogram, their contribution are in different numbers.
+
+###4.b
+If **Hypothesis A** is right, why would we have a histogram so intuitively in contrary with what we expect ? There's 35 **permit(Noun)** stressed by syllable1, but only 1 **permit(Verb)** by syllable1. However we expect 18 **permit(Noun)** and 18 **permit(Verb)**. I can only imagine that the sample we have is not in great situation of representation. Within the 46 dictionnaries who have include both **permit(Noun)** and **permit(Verb)**, either they are in a concentrated particular period in which everyone pronounce **permit(Verb)** by syllable2; or there's a potential that the distinction of stress of syllable is less clear (we just have particular dictionnary who just make a clear distinction of stress of syllables for Noun and Verb). Look at the last histogram, we expect both Noun and Verb have 18 syllable1 and 28 syllable2, but that's not an absolute situation. We can have many variations of this situation, so we guess the possible variations are so many that we just fall to a version that looks very different to its original. 
+
+##Exercise_5
+```{r}
+library(magrittr)
+set.seed(1)
+ver_balanced <- languageR::ver %>%
+  dplyr::group_by(SemanticClass) %>%
+  dplyr::sample_n(198)
+set.seed(NULL)
+```
+
+```{r}
+ggplot2::ggplot(ver_balanced, ggplot2::aes(x=Frequency)) +
+  ggplot2::geom_histogram(fill="lightgrey", colour="black", binwidth=250) +
+  ggplot2::facet_grid(SemanticClass ~ .)
+```
+
+###5.a
+The vertical vex means the number that we count for each category, the horizontal is the words' frequency. So for example, there's a word of semantically opaque who's extremely frequently (frequency>20000) seen in this observation. However, there's more than 150 words who are judged to be semantically transparent are, in fact, in a low frequency within this observation.
+
+###5.b
+```{r}
+library(magrittr)
+set.seed(1)
+ver_balanced <- languageR::ver %>%
+  dplyr::group_by(SemanticClass) %>%
+  dplyr::sample_n(198)
+set.seed(NULL)
+ggplot2::ggplot(ver_balanced, ggplot2::aes(x=Frequency)) +
+  ggplot2::geom_histogram(colour="black", fill="lightgrey", binwidth=250)
+  
+```
+
+The graph in **5.a** is just a varied version of the graph that I made in **5.b**. So we can't make a judgement just from the precedent graph. Both hypothesis are possible.
+
+**Hypothesis A**: Semantically transparent and opaque ver- verbs are the same in terms of their frequency.
+
+**Hypothesis B**: Semantically transparent and opaque ver- verbs are different in terms of their frequency.
+
+If **Hypothesis A** is right, that means how many opaques in low frequency, there's roughly same number of transparents in this range of frequency. If it's true, we will expect a likelihood between these 3 graphs. Or even if we draw correspond curves in the graphs, they should be in a roughly same forme (because each one should be like half of the last one). In contrary, if **Hypothesis B** is right then we'll expect that when semantically transparents has many words in low frequency and few in high frequency, the opaque will have less in low frequency and more in high frequency. That's to say, the proportion of the distribution of the words in each frequency are different for opaque and transparent.
+
+###5.c
+Consider that **Hypothesis A** is right, so that we expect the curves in roughly same forme due to the distribution in frequencies. We expect each of the opaque and the transparent to have words who's frequency less than 200 3 times more than the one who's between like 200 to 400, which, is expected to be 3 times more than the one between 400 to 600, etc, until a very few words in a extremely high frequency. This is the ideal situation of "half and half" which is exactly the "same in terms of frequency". But we do have variation versions who could have slight difference with this version. Given that **Hypothesis A** is considered right, we so could imagine a situation where the slight difference will get us to this variation.
+
