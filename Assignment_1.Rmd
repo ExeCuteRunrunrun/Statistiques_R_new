@@ -1,6 +1,6 @@
 ---
 title: "Assignment_1"
-author: "Manying"
+author: "Manying Zhang"
 date: "29/09/2017"
 output: html_document
 ---
@@ -172,7 +172,7 @@ According the histograms that we get so far, the **Hypothesis B** seems more int
 
 Nonethness, it's still possible that **Hypothesis A** has reason too. If the virginica and versicolor iris species are the same in terms of sepal width, we just saw a sample not completly exact to its whole species. Given that the flowers whose sepal width >=3.0 are 45 in total, so if these two are actually the same in terms of sepal width, we should expect each specie has more or less 22, 23 flowers who have >=3.0cm sepals. And similarly, each one has more or less 22, 23 (also half of 45) flowers who have >=2.5cm sepals. And 5 or 4 (half of 10) flowers sepals below 2.5cm.
 
-###3.d
+### 3.d
 For **Hypothesis A**, my suggestion is to look at the variations x<2.5, 2.5<=x<2.8, 2.8<=x<3.1, 3.1<=x<3.4, x>=3.4. The 3rd histogram shows that:
 
 x<2.5 : 10
@@ -225,7 +225,7 @@ x>=3.4 : 5
 
 We can see that in the middle range, they are roughly same of each other. As for the two sides, we can imagine that if we generate 2 pseudo histograms from the 3rd histogram, it's definetly possible to see a situation like the current one. Like we've seen in the class, the distribution of values might actually have one similar to our initial data. And if we link the boxes to have curves, we can just tell that the two curves are very close to the curve of the 3rd histogram to some extent. They could be considered as a same thing.
 
-##Exercise_4
+## Exercise_4
 ```{r}
 devtools::install_github("ewan/stats_course", subdir="data/stress_shift")
 ```
@@ -242,7 +242,7 @@ ggplot2::ggplot(stressshift::stress_shift_permit,
   ggplot2::scale_fill_brewer(palette="Set3")
 ```
 
-###4.a
+### 4.a
 Given the histogram of Noun and Verb pooled together then explain the 2 hypothesis
 ```{r}
 ggplot2::ggplot(stressshift::stress_shift_permit, ggplot2::aes(x=0, fill=Syllable)) +
@@ -260,10 +260,10 @@ ggplot2::ggplot(stressshift::stress_shift_permit, ggplot2::aes(x=0, fill=Syllabl
 
 As we can see in the last histogram, we have au total 36 words streghening syllable1 and 56 words streghening syllable2. If **permit(Noun)** and **permit(Verb)** are the same in terms of their stress, we will expect roughly 18 syllable1 and 28 syllable2 for each Noun and Verb. In contrary, if **Hypothesis B** is right, we will expect 2 different situations. Maybe **permit(Noun)** has 32 syllable1 and 14 syllable2 and **permit(Verb)** has 4 syllable1 and 42 syllable2. Or maybe in reverse, **permit(Noun)** has 2 syllable1 and 44 syllable2 and **permit(Verb)** has 34 syllable1 and 12 syllable2. In a word, they are not half and half in the contribution of each syllable in the last histogram, their contribution are in different numbers.
 
-###4.b
+### 4.b
 If **Hypothesis A** is right, why would we have a histogram so intuitively in contrary with what we expect ? There's 35 **permit(Noun)** stressed by syllable1, but only 1 **permit(Verb)** by syllable1. However we expect 18 **permit(Noun)** and 18 **permit(Verb)**. I can only imagine that the sample we have is not in great situation of representation. Within the 46 dictionnaries who have include both **permit(Noun)** and **permit(Verb)**, either they are in a concentrated particular period in which everyone pronounce **permit(Verb)** by syllable2; or there's a potential that the distinction of stress of syllable is less clear (we just have particular dictionnary who just make a clear distinction of stress of syllables for Noun and Verb). Look at the last histogram, we expect both Noun and Verb have 18 syllable1 and 28 syllable2, but that's not an absolute situation. We can have many variations of this situation, so we guess the possible variations are so many that we just fall to a version that looks very different to its original. 
 
-##Exercise_5
+## Exercise_5
 ```{r}
 library(magrittr)
 set.seed(1)
@@ -279,10 +279,10 @@ ggplot2::ggplot(ver_balanced, ggplot2::aes(x=Frequency)) +
   ggplot2::facet_grid(SemanticClass ~ .)
 ```
 
-###5.a
+### 5.a
 The vertical vex means the number that we count for each category, the horizontal is the words' frequency. So for example, there's a word of semantically opaque who's extremely frequently (frequency>20000) seen in this observation. However, there's more than 150 words who are judged to be semantically transparent are, in fact, in a low frequency within this observation.
 
-###5.b
+### 5.b
 ```{r}
 library(magrittr)
 set.seed(1)
@@ -303,6 +303,6 @@ The graph in **5.a** is just a varied version of the graph that I made in **5.b*
 
 If **Hypothesis A** is right, that means how many opaques in low frequency, there's roughly same number of transparents in this range of frequency. If it's true, we will expect a likelihood between these 3 graphs. Or even if we draw correspond curves in the graphs, they should be in a roughly same forme (because each one should be like half of the last one). In contrary, if **Hypothesis B** is right then we'll expect that when semantically transparents has many words in low frequency and few in high frequency, the opaque will have less in low frequency and more in high frequency. That's to say, the proportion of the distribution of the words in each frequency are different for opaque and transparent.
 
-###5.c
+### 5.c
 Consider that **Hypothesis A** is right, so that we expect the curves in roughly same forme due to the distribution in frequencies. We expect each of the opaque and the transparent to have words who's frequency less than 200 3 times more than the one who's between like 200 to 400, which, is expected to be 3 times more than the one between 400 to 600, etc, until a very few words in a extremely high frequency. This is the ideal situation of "half and half" which is exactly the "same in terms of frequency". But we do have variation versions who could have slight difference with this version. Given that **Hypothesis A** is considered right, we so could imagine a situation where the slight difference will get us to this variation.
 
